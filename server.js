@@ -8,26 +8,27 @@ var app = express();                               //create our app w/ express
 var http = require('http');
 var https = require('https');
 var oracledb = require('oracledb');
-var hostname = '<your oracle db connection hostname>';
+// var hostname = '<your oracle db connection hostname>';
+var hostname = 'localhost';
 
-console.log('Hostname is : '+hostname);
+console.log('Hostname is : ' + hostname);
 
-
-
-connstr =
-    "(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = hostname)(PORT = 1521)) (CONNECT_DATA =(SERVER = DEDICATED)(SID = orcl)))";
+let _user = 'dedale';
+let _password = 'dedale';
+connstr = "WENDYS";
+//    "(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521)) (CONNECT_DATA =(SERVER = DEDICATED)(SID = parade)))";
 
 console.log('Starting to get oracle connection . . . . .. ');
 
 
 oracledb.getConnection(
     {
-        user          : '<username>',
-        password      : '<password>',
-        connectString : connstr
+        user: _user,
+        password: _password,
+        connectString: connstr
         //connectString : "(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))(CONNECT_DATA =(SID= ORCL)))"
     },
-    function(err, connection) {
+    function (err, connection) {
         console.log('Starting to establish a connection. . . . . ');
         if (err) {
             console.error(err.message);
@@ -36,7 +37,7 @@ oracledb.getConnection(
         console.log('Connection was successful!');
 
         connection.close(
-            function(err) {
+            function (err) {
                 if (err) {
                     console.error(err.message);
                     return;
@@ -45,26 +46,27 @@ oracledb.getConnection(
     });
 
 
-app.get('/api/customapp/loadinitialdata',function(req,res){
+app.get('/api/customapp/loadinitialdata', function (req, res) {
 
     console.log("inside loadinitialdata");
 
     var rslt = new Object();
     oracledb.getConnection(
         {
-            user          : "<username>",
-            password      : "<password>",
-            connectString : connstr
+            user: _user,
+            password: _password,
+            connectString: connstr
         },
-        function(err, connection)
-        {
-            if (err) { console.error(err.message);
-                res.render('index', {result: 'Oracle error!'}); return; }
+        function (err, connection) {
+            if (err) {
+                console.error(err.message);
+                res.render('index', {result: 'Oracle error!'});
+                return;
+            }
             connection.execute(
-                "select * from prodcoffee" ,
-                 //Above is a sample query that returns some result
-                function(err, result)
-                {
+                "select * from test",
+                //Above is a sample query that returns some result
+                function (err, result) {
                     if (err) {
                         console.error(err.message);
                         return;
@@ -74,19 +76,20 @@ app.get('/api/customapp/loadinitialdata',function(req,res){
                     res.json(JSON.parse(rslt));
 
                     connection.release(
-                        function(err) {
+                        function (err) {
                             console.log('Releasing connection');
-                            if (err) { console.error(err.message); }
+                            if (err) {
+                                console.error(err.message);
+                            }
                         });
                 });
         });
 
 
-
 });
 
 
-var distDir = '<You local project location>'; //something like '/Users/AK/MyAngularProjects/CustomApp'
+var distDir = 'C:/Users/Alain/Document/OracleAngular'; //something like '/Users/AK/MyAngularProjects/CustomApp'
 app.use(express.static(distDir));
 
 

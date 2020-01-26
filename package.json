@@ -6,11 +6,10 @@
   "author": "Abhilasha",
   "dependencies": {
     "express": "^4.13.4",
-    "oracledb": "^3.0.0"
+    "oracledb": "^4.2.0"
   },
   "devDependencies": {
     "babel-loader": "^7.1.2",
-    "webpack": "^3.8.1",
     "body-parser": "^1.14.2",
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
@@ -18,6 +17,7 @@
     "hogan-express": "^0.5.2",
     "oracledb": "",
     "path": "^0.12.7",
-    "soap": "^0.11.4"
+    "soap": "^0.30.0",
+    "webpack": "^4.41.5"
   }
 }
